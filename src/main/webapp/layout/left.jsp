@@ -103,7 +103,7 @@ function history(){
 		%>
 		<tr>
 			<td class="Depth03">
-				<a href="/purchase/listPurchase" target="rightFrame">구매이력조회</a>
+				<a href="/purchase/listPurchase?test=실험중" target="rightFrame">구매이력조회</a>
 			</td>
 		</tr>
 		<%

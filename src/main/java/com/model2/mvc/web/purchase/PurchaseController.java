@@ -28,7 +28,6 @@ import com.model2.mvc.service.user.UserService;
 @Controller
 @RequestMapping("/purchase/*")
 public class PurchaseController {
-	////////////Business logic UserService DI/////////////////////
 	///Field
 
 	@Autowired
