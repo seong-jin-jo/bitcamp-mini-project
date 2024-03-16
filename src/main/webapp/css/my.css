@@ -1,0 +1,59 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* 이미지 스타일 */
+img {
+    width: 30%;
+    height: 30%;
+    display: inline;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+/* 눈내리는 효과 */
+.snow {
+    position: fixed;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://media.giphy.com/media/xT0BKiwgU4M4NXPiVW/giphy.gif');
+    pointer-events: none;
+    z-index: 9999;
+    animation: snow-fall 10s linear infinite;
+}
+
+@keyframes snow-fall {
+    0% { background-position: 0px 0px; }
+    100% { background-position: 0px 2000px; }
+}
+
+/* 번개 효과 */
+.lightning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    animation: lightning-flash 0.5s ease infinite;
+}
+
+@keyframes lightning-flash {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
