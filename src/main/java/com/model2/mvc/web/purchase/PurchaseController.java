@@ -34,31 +34,101 @@ public class PurchaseController {
 	@Qualifier("purchaseServiceImpl")
 	private PurchaseService purchaseService;
 	
+	@Autowired
+	@Qualifier("productServiceImpl")
+	private ProductService productService;
+	
 	///Constructor
 	public PurchaseController() {
-		System.out.println(this.getClass());
+		System.out.println(this.getClass()+"ㅎㅎ");
 	}
 
+	//상품에서 구매 클릭시
+	@RequestMapping(value="addPurchaseView", method=RequestMethod.GET)
+	public String addPurhcase() throws Exception {
+		
+		System.out.println("/purchase/addPurchase : GET");
+		
+		return "forward:/purchase/addPurchase.jsp";
+	}
+	
 	// 구매이력 클릭시
-	@RequestMapping(value ="listPurchase")
-	public String listPurchase(@RequestParam("test") String test) throws Exception {
+	@RequestMapping(value ="listPurchase", method=RequestMethod.GET)
+	public String listPurchase( HttpSession session, Model model) throws Exception {
+		
+		System.out.println("/purchase/listPurchase : GET");
 
-		System.out.println(test);
-		System.out.println("/purchase/listPurchase 떠야됨");
+		User user = (User)session.getAttribute("user");
+		System.out.println(user.getUserId());
+		
+		List<PurchaseVO> result = purchaseService.getPurchaseList(user.getUserId());
+		System.out.println("컨트롤러 DB조회결과 : " +result);
+		
+		model.addAttribute("result",result);
 		
 		return "forward:/purchase/listPurchase.jsp";
 	}
 	
 	// 상품상세보기에서 구매버튼 클릭시
 	@RequestMapping( value="execPurchase", method=RequestMethod.GET )
-	public String purchaseProduct(@RequestParam("prodNo") String prodNo ) {
+	public String purchaseProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 		
-		System.out.println("/purchase/execPurchase : "+ prodNo);
+		System.out.println("/purchase/execPurchase : GET "+ prodNo);
 		
+		ProductVO product = productService.findProduct(prodNo);
+		model.addAttribute("product", product);
 		// 해당 product 를 입금대기중으로 수정
 		// 해당 user에 product 엮어주기
 		
+		return "forward:/purchase/execPurchaseView.jsp";
+	}
+	
+	// 구매페이지에서 최종구매버튼 클릭시
+	@RequestMapping( value="execPurchase", method=RequestMethod.POST )
+	public String purchaseProduct(@ModelAttribute("addPurchase") PurchaseVO purchase) throws Exception {
+		
+		System.out.println("/purchase/execPurchase : POST");
+		System.out.println(purchase);
+
+		//상품의 tranCode 업데이트
+		int prodNo = purchase.getPurchaseProd().getProdNo();
+		ProductVO product = productService.findProduct(prodNo);
+		product.setProTranCode("배송중");
+		productService.updateProduct(product);
+	
+		//구매의 tranCode 업데이트
+		purchase.getPurchaseProd().setProTranCode("배송중");
+		purchaseService.purchaseProduct(purchase);
+		
+		System.out.println("업데이트 완료!");
+		
 		return "forward:/purchase/purchaseConfirmView.jsp";
+	}
+	
+	// 배송하기 클릭시
+	@RequestMapping( value="updateTranCode", method=RequestMethod.GET )
+	public String updateTranCode(@RequestParam int prodNo, Model model) throws Exception {
+		
+		System.out.println("/purchase/updateTranCode : GET");
+		System.out.println(prodNo);
+		
+		//product 의 proTranCode 를 배송중에서 배송완료로 변경
+		ProductVO product = productService.findProduct(prodNo);
+		System.out.println(product);
+		product.setProTranCode("배송완료");
+		productService.updateProduct(product);
+		model.addAttribute(product);
+	
+		//해당 product의 구매tranCode도 배송중에서 배송완료로 변경
+		PurchaseVO purchase = new PurchaseVO();
+		purchase.setPurchaseProd(product);
+		System.out.println("업데이트할 대상 product : " + purchase.getPurchaseProd().getProdNo());
+		purchase = purchaseService.findPurchase(purchase);
+		purchaseService.updatePurchase(purchase);
+		
+		System.out.println("업데이트 purchase 성공");
+		//얘네는 listProduct.jsp 가 아니라 얘네가 맞지?
+		return "forward:/product/listProduct";
 	}
 	
 	// 결제버튼 클릭시 View 보여줌

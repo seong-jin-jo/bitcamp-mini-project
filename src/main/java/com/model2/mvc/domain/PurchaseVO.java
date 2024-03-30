@@ -5,16 +5,16 @@ import java.sql.Date;
 
 public class PurchaseVO {
 	
-	private User buyer;
-	private String divyAddr;
-	private String divyDate;
-	private String divyRequest;
+	private User buyer; // 구매자이름 
+	private String divyAddr; // 구매자주소(구 receiverAddr)
+	private String divyDate; // 배송희망일자(구 receiverDate)
+	private String divyRequest; // 구매요청사항(구 receiverRequest)
 	private Date orderDate;
-	private String paymentOption;
+	private String paymentOption; // 구매방법
 	private ProductVO purchaseProd;
-	private String receiverName;
-	private String receiverPhone;
-	private String tranCode;
+	private String receiverName; // 구매자이름
+	private String receiverPhone; // 구매자연락처
+	private String tranCode; 
 	private int tranNo;
 	
 	public PurchaseVO(){

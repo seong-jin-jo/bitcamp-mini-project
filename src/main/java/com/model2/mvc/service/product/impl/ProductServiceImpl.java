@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println(this.getClass());
 	}
 	
-	public ProductVO getProduct(String ProdNo) throws Exception {
+	public ProductVO findProduct(int ProdNo) throws Exception {
 		return productDAO.findProduct(ProdNo);
 	}
 	
@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println("ProductService 에서 DAO에 요청중");
 		System.out.println(productDAO);
 		
+		System.out.println("search 조건 "+search);
 		List<ProductVO> list = productDAO.getProductList(search);
 		int totalCount = productDAO.getTotalCount(search);
 		System.out.println("ProductService 에서 DAO에 요청완료");
@@ -51,7 +52,9 @@ public class ProductServiceImpl implements ProductService {
 		map.put("list", list );
 		map.put("totalCount", new Integer(totalCount));
 		
+		System.out.println("list개수"+list.size());
 		System.out.println(map);
+		
 		return map;
 	}
 
@@ -66,13 +69,16 @@ public class ProductServiceImpl implements ProductService {
 		
 	}
 
-	@Override
+	@Override//미완
 	public boolean checkDuplication(String userId) throws Exception {
 		boolean result=true;
+		/*
 		ProductVO productVO = productDAO.findProduct(userId);
 		if(productVO != null) {
 			result=false;
 		}
+		*/
 		return result;
 	}
+
 }

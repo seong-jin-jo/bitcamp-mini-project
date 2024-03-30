@@ -17,6 +17,8 @@
 </head>
 <body>
 
+<jsp:include page="/layout/background.jsp" />
+
 /paymentView.jsp
 
 각종 결제정보 쭉 뜨고 ...

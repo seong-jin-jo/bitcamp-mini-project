@@ -18,7 +18,7 @@
  
 <table width="100%" height="50" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="800" height="30"><h2>Model2 MVC Shop</h2></td>
+    <td width="800" height="30"><h2>Model2 MVC Shop (로그인 한 놈 : ${user.userId})</h2></td>
     <td height="30" >&nbsp;</td>
   </tr>
   <tr>

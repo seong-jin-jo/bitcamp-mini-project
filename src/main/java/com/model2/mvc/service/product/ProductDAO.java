@@ -12,7 +12,7 @@ public interface ProductDAO {
 	public int insertProduct(ProductVO product) throws Exception ;
 
 	// SELECT ONE
-	public ProductVO findProduct(String productId) throws Exception ;
+	public ProductVO findProduct(int prodNo) throws Exception ;
 
 	// SELECT LIST
 	public List<ProductVO> getProductList(Search search) throws Exception ;

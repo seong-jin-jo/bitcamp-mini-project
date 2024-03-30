@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +42,7 @@ public class ProductController {
 	private ProductService productService;
 	///Constructor
 	public ProductController() {
-		System.out.println(this.getClass());
+		System.out.println(this.getClass()+"ㅅㅅ");
 	}
 	
 	@Value("#{commonProperties['pageUnit']}")
@@ -54,9 +55,11 @@ public class ProductController {
 	
 	//페이지 넘어갈때 리스트가 왜 줄어듦?
 	@RequestMapping( value="listProduct" )
-	public String listProduct(@ModelAttribute("search") Search search, Model model) throws Exception {
+	public String listProduct(@ModelAttribute("search") Search search, @RequestParam String menu, Model model) throws Exception {
 
 		System.out.println("/product/listProduct");
+		
+		System.out.println("param : "+menu);
 		
 		if(search == null) {
 			search = new Search();
@@ -70,7 +73,7 @@ public class ProductController {
 		System.out.println(search);
 		
 		Map<String , Object> map = productService.getProductList(search);
-		
+		System.out.println("listProduct 조회결과 : "+map);
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
@@ -78,17 +81,18 @@ public class ProductController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("param", menu);
 		
 		return "forward:/product/listProduct.jsp";
 	}
 	
 	@RequestMapping( value="getProduct", method=RequestMethod.GET )
-	public String getProduct(@RequestParam("prodNo") String prodNo, Model model) throws Exception {
+	public String getProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 		
 		System.out.println("/product/getProduct");
 		
 		//Product No으로 DB조회
-		ProductVO product= productService.getProduct(prodNo);
+		ProductVO product= productService.findProduct(prodNo);
 		//조회한 결과 'vo' 란 이름으로 얹어서 주기
 		model.addAttribute("vo",product);
 		
@@ -101,6 +105,12 @@ public class ProductController {
 	// ModelAttribute("<-요기->") 데이터타입 요기 // 이렇게 두개맞춰줘야하나? 무슨 의미를 갖는거지 
 	// -> enctype 아무거나써도 requestbody는 됨. 형식의차이 (text/plain 읽기쉽게 기본은 param)으로
 	// 근데 modelAttribute 쓸때는 기본타입써야
+	
+	@RequestMapping( value="addProduct", method=RequestMethod.GET )
+	public String addProductView() {
+		
+		return "forward:/product/addProductView.jsp";
+	}
 	
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct(@ModelAttribute("product") ProductVO product) throws Exception {
@@ -118,20 +128,20 @@ public class ProductController {
 		productService.addProduct(product);
 		
 		
-		return "redirect:/product/addProductConfirm.jsp";
+		return "forward:/product/addProductConfirm.jsp";
 	}
 	
 	//수정 화면 들어가는
 	@RequestMapping( value="updateProduct", method=RequestMethod.GET )
-	public ModelAndView updateProduct(@RequestParam("prodNo") String prodNo) throws Exception {
+	public ModelAndView updateProduct(@RequestParam("prodNo") int prodNo) throws Exception {
 		
 		
 		System.out.println("/product/updateProduct : GET");
 		System.out.println(prodNo);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("productVO", productService.getProduct(prodNo));
-		
+		modelAndView.addObject("ProductVO", productService.findProduct(prodNo));
+	
 		//modelAndView.addObject("userId", user.getUserId()); //모델정보
 		modelAndView.setViewName("forward:/product/updateProduct.jsp");
 		
@@ -149,9 +159,8 @@ public class ProductController {
 		productService.updateProduct(productVO);
 		
 		ModelAndView modelAndView = new ModelAndView();
-		//modelAndView.addObject("userId", user.getUserId()); //모델정보
+		modelAndView.addObject("productVO", productVO); //모델정보
 		modelAndView.setViewName("redirect:/product/getProduct?prodNo="+productVO.getProdNo()); //VIEW정보
-		
 		return modelAndView;
 	}
 	

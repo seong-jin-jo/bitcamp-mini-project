@@ -75,7 +75,7 @@ function history(){
 			</td>
 		</tr>
 		<td class="Depth03">
-				<a href="/product/listProduct?menu=manage" target="rightFrame">魄概惑前包府</a>
+				<a href="/product/listProduct?menu=manage" target="rightFrame">魄概惑前包府</a> 
 			</td>
 		</tr>
 		<tr>

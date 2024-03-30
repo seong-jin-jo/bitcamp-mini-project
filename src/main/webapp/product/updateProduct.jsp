@@ -8,210 +8,142 @@
 
 <html>
 <head>
-<title>회원정보수정</title>
+<title>상품정보수정</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <link rel="stylesheet" href="/css/my.css" type="text/css">
 
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-<!--
-function fncUpdateProduct() {
-
-	var name=document.detailForm.prodName.value;
 	
-	if(name == null || name.length <1){
-		alert("null 처리 구현 아직 안됨!");
-		return;
-	}
-		
-	document.detailForm.action='/product/updateProduct';
-	document.detailForm.submit();
-}
+	$(function(){
 
-function check_email(frm) {
-	alert
-	var email=document.detailForm.email.value;
-    if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
-    	alert("이메일 형식이 아닙니다.");
-		return false;
-    }
-    return true;
-}
+	    console.log($("#button-group"));
+	    $("#button-group").find("button").on("click" , function() {
+	        console.log("수정하러감");
+	        fncUpdateProduct();
+	    });
+	    
+	    function fncUpdateProduct() {
+	        var name = $('form input[name="prodName"]').val();
+	        
+	        if(name == null || name.length < 1){
+	            alert("null 처리 구현 아직 안됨!");
+	            return;
+	        }
+	        
+	        $('form[name="detailForm"]').attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
+	    }
+	    
+	    function check_email(frm) {
+	        alert; // 이 부분은 어떤 의도로 작성되었는지 확인이 필요합니다.
+	        
+	        var email = $('form input[name="email"]').val();
+	        
+	        if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
+	            alert("이메일 형식이 아닙니다.");
+	            return false;
+	        }
+	        return true;
+	    }
+	    
+	    function resetData() {
+	        $('form[name="detailForm"]')[0].reset();
+	    }
+	});
 
-function resetData() {
-	document.detailForm.reset();
-}
--->
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">	
-	
-	<h3> updateProductViewAction 에서 넘어옴 updateProduct.jsp </h3> 
-	
+
+<jsp:include page="/layout/toolbar.jsp" />
+<jsp:include page="/layout/background.jsp" />
+
+<div style="width: 70%; margin: 100px auto;">
+
 <form name="detailForm" method="post">
 
 <input type="hidden" name="prodNo" value="${ProductVO.getProdNo()}">
 
 <!-- 상단 배너 -->
-	<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-		<tr>
-			<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"	width="15" height="37"></td>
-			<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td width="93%" class="ct_ttl01">상품상세조회</td>
-						<td width="20%" align="right">&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-			<td width="12" height="37">
-				<img src="/images/ct_ttl_img03.gif"  width="12" height="37"/>
-			</td>
-		</tr>
-	</table>
+
+	<div class="container">
+	
+		<!-- 상단 배너 -->
+		<div class="page-header">
+	       <h3 class=" text-info">상품정보조회</h3>
+	       <h5 class="text-muted">상품 정보를 <strong class="text-danger">업데이트</strong>해 주세요.</h5>
+	    </div>
 		
-	<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
 		<!-- 상품번호 -->
-		<tr>
-			<!-- 첫번째 칼럼 -->
-			<td width="104" class="ct_write">
-				상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<!-- 구분선 -->
-			<td bgcolor="D6D6D6" width="1"></td>
-			<!-- 두번째 칼럼 -->
-			<td class="ct_write01">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td width="105">${ProductVO.getProdNo()}</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<!-- 상품명 -->
-		<tr>
-			<td width="104" class="ct_write">
-				상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<!-- input 넣어서 수정가능하게끔 -->
-				<input type="text" name="prodName" value="${ProductVO.getProdName()}" class="ct_input_g" 
-							style="width:100px; height:19px"  maxLength="50" >				
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<!-- 상품이미지 -->
-		<tr>
-			<td width="104" class="ct_write">
-				상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<img width="30%" height="30%" src="https://mblogthumb-phinf.pstatic.net/20160817_259/retspe_14714118890125sC2j_PNG/%C7%C7%C4%AB%C3%F2_%281%29.png?type=w800"/>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<!-- 상품상세정보 -->
-		<tr>
-			<td width="104" class="ct_write">
-				상품상세정보 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input 	type="text" name="prodDetail" value="${ProductVO.getProdDetail()}" class="ct_input_g" 
-						style="width:370px; height:19px"  maxLength="100">
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="prodNo" value="${ProductVO.getProdNo()}" readonly></div>
+		</div>				
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품명</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="prodName" value="${ProductVO.getProdName()}"></div>
+		</div>
+
+		<hr/>
+				
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품이미지</strong></div>
+			<img width="30%" height="30%" src="https://mblogthumb-phinf.pstatic.net/20160817_259/retspe_14714118890125sC2j_PNG/%C7%C7%C4%AB%C3%F2_%281%29.png?type=w800"/>
+		</div>
+
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품상세정보</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="prodDetail" value="${ProductVO.getProdDetail()}"></div>
+		</div>
+
+		<hr/>
+				
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>제조일자</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="manuDate" value="${ProductVO.getRegDate()}"></div>
+		</div>
+
+		<hr/>
 			
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<!-- 제조일자 -->
-		<tr>
-			<td width="104" class="ct_write">제조일자</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input 	type="text" name="manuDate" value="${ProductVO.getManuDate()}" class="ct_input_g" 
-					style="width:370px; height:19px"  maxLength="100">
-	
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<!-- 가격 -->
-		<tr>
-			<td width="104" class="ct_write">가격</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input 	type="text" name="price" value="${ProductVO.getPrice()}" class="ct_input_g" 
-					style="width:370px; height:19px"  maxLength="100">
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<!-- 등록일자 -->
-		<tr>
-			<td width="104" class="ct_write">등록일자</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input 	type="text" name="regDate" value="${ProductVO.getRegDate()}" class="ct_input_g" 
-					style="width:370px; height:19px"  maxLength="100">
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-	</table>
-	
-	<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
-		<tr>
-			<td width="53%"></td>
-			<td align="right">
-	
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="javascript:fncUpdateProduct();">수정</a>
-						<!-- update 페이지.. -->
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:resetData();">이전</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-				</tr>
-			</table>
-	
-			</td>
-		</tr>
-	</table>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>가격</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="price" value="${ProductVO.getPrice()}"></div>
+		</div>	
+
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>등록일자</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="regDate" value="${ProductVO.getRegDate()}"></div>
+		</div>	
+
+		<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품상태</strong></div>
+			<div class="col-xs-8 col-md-4"><input type="text" name="proTranCode" value="${ProductVO.getProTranCode()}"></div>
+		</div>	
+
+	</div>
+
+	<div class="container text-right" id="button-group">
+        <button type="button" class="btn btn-primary">
+            수정
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:history.go(-1)">
+            이전
+        </button>
+	</div>
 
 </form>
-	
+
+</div>
+
 </body>
 </html>

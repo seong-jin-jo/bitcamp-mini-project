@@ -11,16 +11,26 @@
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
 
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
 <script type="text/javascript">
-<!--
+
 function fncAddProduct(){
 	//Form 유효성 검증
+	var name = $("input[name='prodName']").val();
+	var detail = $("input[name='prodDetail']").val();
+	var manuDate = $("input[name='manuDate']").val();
+	var price = $("input[name='price']").val();
+	//var img = $("input[name='imageFile']").val();
+	
+	/*
  	var name = document.detailForm.prodName.value;
 	var detail = document.detailForm.prodDetail.value;
 	var manuDate = document.detailForm.manuDate.value;
 	var price = document.detailForm.price.value;
 	var img = document.detailForm.imageFile.value;
-		
+	*/
+	
 	if(name == null || name.length<1){
 		alert("상품명은 반드시 입력하여야 합니다.");
 		return;
@@ -38,127 +48,84 @@ function fncAddProduct(){
 		return;
 	}
 	
-	var inputElements = document.detailForm.getElementsByTagName("input");
+	var inputElements = $('input');
+	//var inputElements = document.detailForm.getElementsByTagName("input");
 	for (var i = 0; i < inputElements.length; i++) {
 	    var inputNode = inputElements[i];
 	    console.log(inputNode);
 	}
 	
-	document.detailForm.action='/product/addProduct';
-	document.detailForm.submit();
+	$('form').attr("action" , "/product/addProduct").submit();
+	//document.detailForm.action='/product/addProduct';
+	//document.detailForm.submit();
 	console.log(name, detail, manuDate, price);
 }
 
 function resetData(){
-	document.detailForm.reset();
+	$('form').reset();
 }
--->
+
 </script>
 </head>
   
 <body bgcolor="#ffffff" text="#000000">
 
+<jsp:include page="/layout/toolbar.jsp" />
+<jsp:include page="/layout/background.jsp" />
+
+<div style="width: 70%; margin: 100px auto;">
+
 <!-- enctype multipart/form-data에서 바꿈 이미지 안쓸거니까  -->
 <form name="detailForm" action="" method="post" enctype="application/x-www-form-urlencoded">
 
-	<%-- 상품등록 배너 --%>
-	<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-		<tr>
-			<td width="15" height="37">
-				<img src="/images/ct_ttl_img01.gif" width="15" height="37"/>
-			</td>
-			<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td width="93%" class="ct_ttl01">상품등록</td>
-						<td width="20%" align="right">&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-			<td width="12" height="37">
-				<img src="/images/ct_ttl_img03.gif"	width="12" height="37"/>
-			</td>
-		</tr>
-	</table>
+		<div class="container">
+	    <!-- 상단 배너 -->
+	    <div class="page-header">
+	        <h3 class="text-info">상품정보조회</h3>
+	        <h5 class="text-muted">상품 정보를 <strong class="text-danger">업데이트</strong>해 주세요.</h5>
+	    </div>
 	
-	<%-- 상품정보입력 테이블 --%>
-	<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<tr>
-			<td width="104" class="ct_write">
-				상품명 <imgsrc="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle">
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td width="105">
-							<input type="text" name="prodName" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20">
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<tr>
-			<td width="104" class="ct_write">
-				상품상세정보 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input type="text" name="prodDetail" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<tr>
-			<td width="104" class="ct_write">
-				제조일자 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
-							style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
-					&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
-											onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<tr>
-			<td width="104" class="ct_write">
-				가격 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<input type="text" name="price" 	class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="10">&nbsp;원
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<tr>
-			<td width="104" class="ct_write">상품이미지</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-<!-- type file 에서 txt 로 바꿈 (아직 이미지 안올릴거니까) -->
-				<input		type="file" name="imageFile" class="ct_input_g" 
-								style="width: 200px; height: 19px" maxLength="13"/>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-	</table>
+	    <!-- 상품번호 -->
+	
+	    <div class="row">
+	        <div class="col-xs-4 col-md-2"><strong>상품명</strong></div>
+	        <div class="col-xs-8 col-md-4"><input type="text" name="prodName" value="${vo.getProdName()}"></div>
+	    </div>
+	
+	    <hr/>
+	
+	    <div class="row">
+	        <div class="col-xs-4 col-md-2"><strong>상품이미지</strong></div>
+	        <div class="col-xs-8 col-md-4">
+	            <img width="30%" height="30%" src="https://mblogthumb-phinf.pstatic.net/20160817_259/retspe_14714118890125sC2j_PNG/%C7%C7%C4%AB%C3%F2_%281%29.png?type=w800"/>
+	        </div>
+	    </div>
+	
+	    <hr/>
+	
+	    <div class="row">
+	        <div class="col-xs-4 col-md-2"><strong>상품상세정보</strong></div>
+	        <div class="col-xs-8 col-md-4"><input type="text" name="prodDetail" value="${vo.getProdDetail()}"></div>
+	    </div>
+	
+	    <hr/>
+	
+	    <div class="row">
+	        <div class="col-xs-4 col-md-2"><strong>제조일자</strong></div>
+	        <div class="col-xs-8 col-md-4"><input type="text" name="manuDate" value="${vo.getRegDate()}">
+	        &nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
+											onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/></div>
+	    </div>
+	
+	    <hr/>
+	
+	    <div class="row">
+	        <div class="col-xs-4 col-md-2"><strong>가격</strong></div>
+	        <div class="col-xs-8 col-md-4"><input type="text" name="price" value="${vo.getPrice()}"></div>
+	    </div>
+
+	</div>
+		
 	
 	<%-- 등록취소버튼 --%>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
@@ -193,5 +160,7 @@ function resetData(){
 	</table>
 
 </form>
+
+</div>
 </body>
 </html>

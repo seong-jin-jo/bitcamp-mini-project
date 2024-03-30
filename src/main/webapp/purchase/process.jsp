@@ -9,8 +9,10 @@
 </head>
 
 <body bgcolor="#ffffff" text="#000000">	
-
+<jsp:include page="/layout/background.jsp" />
 admin이 배송중 링크눌렀을때 배송완료 처리하게
 
 </body>
+
+
 </html>

@@ -33,10 +33,10 @@ public class ProductDaoImpl implements ProductDAO{
 	public int insertProduct(ProductVO product) throws Exception {
 		return sqlSession.insert("ProductMapper.addProduct", product);
 	}
-
-	public ProductVO findProduct(String productId) throws Exception {
-		System.out.println(productId + "로 조회하는 findProduct");
-		return sqlSession.selectOne("ProductMapper.getProduct", productId);
+	
+	public ProductVO findProduct(int prodNo) throws Exception {
+		System.out.println(prodNo + "로 조회하는 findProduct");
+		return sqlSession.selectOne("ProductMapper.getProduct", prodNo);
 	}
 	
 	public void updateProduct(ProductVO product) throws Exception {
@@ -50,7 +50,7 @@ public class ProductDaoImpl implements ProductDAO{
 
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+		return sqlSession.selectOne("ProductMapper.getTotalCount",search);
 	}
 
 	@Override

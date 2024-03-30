@@ -40,7 +40,7 @@ public class UserController {
 	private UserService userService;
 	///Constructor
 	public UserController() {
-		System.out.println(this.getClass());
+		System.out.println(this.getClass()+"ㅋㅋ");
 	}
 	
 	@Value("#{commonProperties['pageUnit']}")
@@ -51,20 +51,28 @@ public class UserController {
 	//@Value("#{commonProperties['pageSize'] ?: 2}")
 	int pageSize;
 	
-	@RequestMapping( value="addUser", method=RequestMethod.POST )
+	@RequestMapping( value="addUser", method=RequestMethod.GET )
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
 
-		System.out.println("/user/addUser : POST");
+		System.out.println("/user/addUserView : GET");
 		
 		//Business Logic
-		userService.addUser(user);
+		//userService.addUser(user);
 		
-		return "redirect:/user/loginView.jsp";
+		return "redirect:/user/addUserView.jsp";
 	}
 	
 	@RequestMapping( value="checkDuplication", method=RequestMethod.POST )
-	public void checkDuplication() {
-		//해야지
+	public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception{
+		
+		System.out.println("/user/checkDuplication : POST");
+		//Business Logic
+		boolean result=userService.checkDuplication(userId);
+		// Model 과 View 연결
+		model.addAttribute("result", new Boolean(result));
+		model.addAttribute("userId", userId);
+
+		return "forward:/user/checkDuplication.jsp";
 	}
 	
 	//@RequestMapping("/getUser.do")
@@ -95,6 +103,7 @@ public class UserController {
 		Map<String , Object> map = userService.getUserList(search);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println("listUser 조회결과 : "+map);
 		System.out.println(resultPage);
 		
 		// Model 과 View 연결
@@ -104,6 +113,12 @@ public class UserController {
 		
 		return "forward:/user/listUser.jsp";
 		
+	}
+	
+	@RequestMapping( value="loginView", method=RequestMethod.GET)
+	public String loginView() throws Exception{
+		
+		return "redirect:/user/loginView.jsp";
 	}
 	
 	@RequestMapping( value="login", method=RequestMethod.POST )
@@ -134,7 +149,7 @@ public class UserController {
 
 		//모델/뷰 정보를 갖는 모델앤뷰 생성
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/index.jsp");
+		modelAndView.setViewName("redirect:/index.jsp");
 		//modelAndView.addObject("message", message);
 
 		System.out.println("logout할 때 index.jsp 가라고 포워딩했는데 왜안가노");

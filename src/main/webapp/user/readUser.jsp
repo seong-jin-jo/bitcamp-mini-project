@@ -17,6 +17,8 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
+<jsp:include page="/layout/background.jsp" />
+
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37">

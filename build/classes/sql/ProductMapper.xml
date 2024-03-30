@@ -28,7 +28,7 @@
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
-	 <select 	id="getProduct"	parameterType="String"	resultMap="productSelectMap">
+	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
 		manufacture_day , price, prod_detail, prod_name , prod_No, reg_date , prod_trancode
 		FROM product
@@ -44,6 +44,9 @@
 			manufacture_day 	= #{manuDate} ,
 			price				= #{price},
 			reg_date			= #{regDate},
+	        <if test="proTranCode != null">
+            prod_trancode = #{proTranCode}
+        	</if>
 	   	</set>
 	   	WHERE prod_no = #{prodNo}
 	 </update>
@@ -60,7 +63,7 @@
 										 				prod_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-										 				prod_name = #{searchKeyword}
+									 				  	prod_name LIKE '%' || #{searchKeyword} || '%'
 													</if>
 												</where>
 											</if>
@@ -90,7 +93,8 @@
 						 			prod_no = #{searchKeyword}
 								</if>
 								<if test="searchCondition == 1 and searchKeyword !='' ">
-						 			prod_name = #{searchKeyword}
+						 			prod_name LIKE '%' || #{searchKeyword} || '%'
+						 			
 								</if>
 							</where>
 						</if> ) countTable						

@@ -17,6 +17,8 @@
 </head>
 <body>
 
+<jsp:include page="/layout/background.jsp" />
+
 /paymentConfirmView.jsp
 
 결제완료되면 이동하는 페이지.

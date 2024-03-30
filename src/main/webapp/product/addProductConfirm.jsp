@@ -12,14 +12,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+    <meta charset="EUC-KR">
+    <title>상품 등록 완료</title>
+    <style>
+        body {
+            background-color: lavender;
+            font-family: Arial, sans-serif;
+        }
+        .message-container {
+            margin-top: 100px;
+        }
+        .message {
+            font-size: 36px;
+            color: lightyellow;
+        }
+        .product-info {
+            font-size: 24px;
+            color: darkblue;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-상품 등록 완료!
+<jsp:include page="/layout/toolbar.jsp" />
+<jsp:include page="/layout/background.jsp" />
 
-<br></br>${productVO.getProdName()}
-	</br>${productVO.getProTranCode()}
+<div class="message-container">
+    <div class="message">
+        상품 등록이 완료되었습니다!
+    </div>
+    <!-- 
+    <div class="product-info">
+        상품명: ${productVO.getProdName()} <br>
+        상품상태: ${productVO.getProTranCode()}
+    </div>
+     -->
+</div>
+
 </body>
-</html>
+</html>	
