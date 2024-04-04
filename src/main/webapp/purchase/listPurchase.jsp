@@ -77,7 +77,7 @@
 			<td align="left">${item.receiverName}</td>
 			<td align="left">${item.receiverPhone}</td>
 			<td align="left">${item.purchaseProd.proTranCode}</td>
-			<td align="left">정보수정 어떻게?</td>	
+			<td align="left">정보수정(구현중)</td>	
 		</tr>			
 		</c:forEach>	
 	   </tbody>	  

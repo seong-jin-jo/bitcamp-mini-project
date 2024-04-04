@@ -115,7 +115,11 @@
 		
 	<div class="container text-right">
 	    <div class="row">
-
+				<!-- 구매 버튼 -->
+	            <c:if test="${sessionScope != null && sessionScope.user.userId.contains('user')}">								
+	                <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="location.href='/purchase/execPurchase?prodNo=${vo.getProdNo()}'">구매</button>
+	            </c:if>
+	            
 	            <!-- 수정 버튼 -->
 	            <c:if test="${sessionScope != null && sessionScope.user.userId.equals('admin')}">								
 	                <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="location.href='/product/updateProduct?prodNo=${vo.getProdNo()}'">수정</button>

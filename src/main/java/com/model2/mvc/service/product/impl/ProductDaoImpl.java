@@ -58,4 +58,10 @@ public class ProductDaoImpl implements ProductDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	// autocomplete 위해 전체조회
+	public List<String> getProductAll(String value) throws Exception {
+		return sqlSession.selectList("ProductMapper.getProductAll",value);
+	}
+	
 }

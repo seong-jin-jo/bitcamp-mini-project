@@ -23,6 +23,7 @@ public interface ProductDAO {
 	// 게시판 Page 처리를 위한 전체Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception ;
 
-	int removeProduct(String productId) throws Exception;
+	public int removeProduct(String productId) throws Exception;
 	
+	public List<String> getProductAll(String value) throws Exception;
 }

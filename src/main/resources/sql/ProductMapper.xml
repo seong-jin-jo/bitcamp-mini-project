@@ -83,7 +83,7 @@
 		-->
 	
 	<!-- SQL : SELECT ROW Count -->	 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	 <select  id="getTotalCount"  parameterType="search" resultType="int">
 	  	SELECT COUNT(*)
 	  	FROM(	SELECT prod_no , prod_name , prod_trancode
 						FROM product
@@ -100,4 +100,10 @@
 						</if> ) countTable						
 	 </select>
 	 
+	 <!-- autocomplete 위한 입력문자열받아 조회하는 -->
+	 <select  id="getProductAll"  parameterType="String" resultType="String">
+	 	SELECT prod_name from product
+		WHERE prod_name LIKE '%' || #{value} || '%'
+	 </select>
+
 </mapper>

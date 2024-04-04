@@ -100,7 +100,13 @@
 			//console.log ( $(".ct_list_pop:nth-child(7)" ).html() ); 
 		});	
 	</script>		
-	
+
+	<!-- 툴팁 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $('.ct_list_pop').tooltip();     
+		});
+	</script>	
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
@@ -180,10 +186,10 @@
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 회원정보 확인">${user.userId}</td>
+			  <td align="left">${user.userId}</td>
 			  <td align="left">${user.userName}</td>
 			  <td align="left">${user.email}</td>
-			  <td align="left">
+			  <td align="left" title="Click : 회원정보 확인">
 			  	<i class="glyphicon glyphicon-ok" id= "${user.userId}"></i>
 			  	<input type="hidden" value="${user.userId}">
 			  </td>

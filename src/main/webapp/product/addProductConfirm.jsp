@@ -20,7 +20,7 @@
             font-family: Arial, sans-serif;
         }
         .message-container {
-            margin-top: 100px;
+            margin-top: 200px;
         }
         .message {
             font-size: 36px;
@@ -32,22 +32,28 @@
             margin-top: 20px;
         }
     </style>
+    
+   	<!-- CDN(Content Delivery Network) 호스트 사용 -->
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    
 </head>
 <body>
 
 <jsp:include page="/layout/toolbar.jsp" />
 <jsp:include page="/layout/background.jsp" />
 
-<div class="message-container">
-    <div class="message">
-        상품 등록이 완료되었습니다!
-    </div>
-    <!-- 
-    <div class="product-info">
-        상품명: ${productVO.getProdName()} <br>
-        상품상태: ${productVO.getProTranCode()}
-    </div>
-     -->
+<div style="width: 70%; margin: 100px auto;">
+	<div class="message-container">
+	    <div class="message" style="display:flex; align-itmes:center; justify-content:center;">
+	        상품 등록이 완료되었습니다!
+	    </div>
+	    <!-- 
+	    <div class="product-info">
+	        상품명: ${productVO.getProdName()} <br>
+	        상품상태: ${productVO.getProTranCode()}
+	    </div>
+	     -->
+	</div>
 </div>
 
 </body>

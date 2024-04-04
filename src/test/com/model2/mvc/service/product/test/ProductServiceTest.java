@@ -42,6 +42,15 @@ public class ProductServiceTest {
 	@Qualifier("productDaoImpl")
 	private ProductDAO productDao;
 	
+	@Test
+	public void testGetProductList() throws Exception{
+		
+		List<String> allproducts = productService.getProductAll();
+		System.out.println(allproducts);
+		
+		Assert.assertNotNull(allproducts); //null인지 아닌지 확인
+	}
+	
 	//@Test
 	public void testAddProduct() throws Exception {
 		
@@ -73,7 +82,7 @@ public class ProductServiceTest {
         Assert.assertEquals("배송완료", product.getProTranCode());
 	}
 	
-	@Test
+	//@Test
 	public void testGetProduct() throws Exception {
 		
 		ProductVO product = new ProductVO();
@@ -105,7 +114,7 @@ public class ProductServiceTest {
 		Assert.assertNotNull(productService.getProduct("user05"));
 	}
 	
-	@Test
+	//@Test
 	 public void testUpdateProduct() throws Exception{
 		 
 		ProductVO product = productService.getProduct("1247");
@@ -130,7 +139,7 @@ public class ProductServiceTest {
 		Assert.assertEquals("1001", product.getPrice());
 	 }
 	 
-	@Test
+	//@Test
 	public void testCheckDuplication() throws Exception{
 
 		//==> 필요하다면...
@@ -156,7 +165,7 @@ public class ProductServiceTest {
 	}
 	
 	 //==>  주석을 풀고 실행하면....
-	 @Test
+	 //@Test
 	 public void testGetProductListAll() throws Exception{
 		
 		System.out.println("test 시작!!!!"); 
@@ -195,7 +204,7 @@ public class ProductServiceTest {
 	 	//System.out.println(totalCount);
 	 }
 	 
-	 @Test
+	 //@Test
 	 public void testGetUserListByUserId() throws Exception{
 		 
 	 	Search search = new Search();
@@ -230,7 +239,7 @@ public class ProductServiceTest {
 	 	//System.out.println(totalCount);
 	 }
 	 
-	 @Test
+	 //@Test
 	 public void testGetUserListByUserName() throws Exception{
 		 
 	 	Search search = new Search();

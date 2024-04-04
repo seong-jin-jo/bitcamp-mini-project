@@ -46,16 +46,18 @@
 	*/
 %>
 --%>
-
+<!DOCTYPE html>
 <html>
+
 <head>
+	<meta charset="EUC-KR">
 	<title>상품 목록조회T</title>
+	
+	<link rel="stylesheet" href="/css/my.css" type="text/css">
+	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 	
 	<!-- CDN(Content Delivery Network) 호스트 사용 -->
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-	<link rel="stylesheet" href="/css/my.css" type="text/css">
-	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 	
 	<!-- ajax 및 페이지이동 -->
 	<script type="text/javascript">
@@ -73,7 +75,7 @@
 		
 		$(function() {
 			//var prodNo = $(".ct_list_pop td")[0].innerText;
-			//console.log(prodNo);
+			console.log("ajax 동작시점 확인중");
 			
 		 	$( "#searchButton" ).on("click" , function() {
 				//Debug..
@@ -106,7 +108,8 @@
 								//Debug...
 								//alert("JSONData : \n"+JSONData);
 								
-								var displayValue = "<p class='ajax'>"
+								var displayValue = "<tr class='ajax' >"
+															+"<td colspan='5'>" 
 															//+"파일이름 : "+JSONData.fileName+"<br/>"
 															//+"이미지 : "+JSONData.imageFile+"<br/>"
 															//+"제조일자 : "+JSONData.manuDate+"<br/>"
@@ -116,16 +119,17 @@
 															+"상세정보 : "+JSONData.prodDetail+"<br/>"
 															//+"상품번호 : "+JSONData.prodNo+"<br/>"
 															//+"등록일  : "+JSONData.regDate+"<br/>"
-												+"</p>";
+															+"</td>" 
+													+"</tr>";
 								//Debug...									
 								console.log(displayValue); 
 								
 								//clickedTr.find("h3").empty();
 								console.log("clickedTr",clickedTr);
-								if (clickedTr.next().is("p.ajax")) {
+								if (clickedTr.next(".ajax").length > 0) {
 									console.log("제거")
 								    // 이미 등록된 요소가 있으면 해당 요소를 제거
-								    clickedTr.next("p.ajax").remove();
+								    clickedTr.next(".ajax").remove();
 								} else {
 									console.log("등록")
 								    // 등록된 요소가 없으면 "gg"를 추가
@@ -178,7 +182,7 @@
 		padding: 10px;
 		margin-top: 10px;
 		width: 100%;
-		/* display: none; 초기에는 숨겨둠 */
+		
 	}
 	
 	/* ajax에서 가져온 p태그 호버시 */
@@ -219,16 +223,72 @@
 	<!-- 툴팁 -->
 	<script type="text/javascript">
 		$(document).ready(function(){
+			console.log("툴팁 동작시점 확인중");
 		    $('.ct_list_pop').tooltip();     
 		});
 	</script>
 	
+ 
+
+	<!-- auto complete trying-->
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	<style> /*auto complete css 수정 예정 */</style>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			console.log("autocomplete 동작시점 확인중");
+			$('#searchKeyword').autocomplete({
+				
+			    source: function(req,res){
+			    	// req : 사용자가 입력한 쿼리
+			    	// res : 자동 완성 기능에 표시될 항목들을 반환
+			    	
+			    	$.ajax({
+			    		url: "/product/json/getProductList",
+			    		type: "POST",
+			    		dataType: "json",
+			    		data: { value: req.term }, 
+			    		// term은 jQuery UI의 자동 완성(autocomplete) 위젯에서 사용되는 특별한 속성입니다. 
+			    		// 이 속성은 사용자가 입력한 값을 나타내며, 자동 완성 위젯이 작동하는 동안에만 존재합니다. 
+			    		// 사용자가 입력 필드에 텍스트를 입력할 때마다 term 속성이 업데이트되어 해당 입력을 나타냅니다.
+			    		
+			    		// value는 jQuery UI의 자동 완성(autocomplete) 위젯에서 사용되는 옵션 중 하나입니다. 
+			    		// 이 옵션은 사용자가 선택한 항목의 값을 나타내며, 일반적으로 데이터베이스나 다른 소스에서 가져온 항목의 특정 속성을 나타냅니다.
+			    		
+			    		/*
+						headers : {
+							"Accept" : "application/json", //서버에게 원하는 데이터 타입
+							"Content-Type" : "application/json" //req,res 바디의 데이터 타입?
+						},
+						*/
+				       success: function (JSONData , status) {
+				    	   
+				    		console.log(JSONData , status); 
+			                res(JSONData)
+			                
+			    		}
+			   	 	})
+			    },
+			    focus: function (event, ui) {
+			      return false;
+			    },
+			    select: function (event, ui) {},
+			    minLength: 1, // 최소 입력 길이를 1로 설정하여 한 글자씩 입력될 때마다 자동 완성 시작
+			    delay: 100,
+			    autoFocus: true
+
+			  });
+		});
+	
+	</script>
+	
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
-<jsp:include page="/layout/background.jsp" />
 <jsp:include page="/layout/toolbar.jsp" />
+<jsp:include page="/layout/background.jsp" />
 
 
 <div style="width: 70%; margin: 100px auto;">
@@ -305,7 +365,7 @@
 				<c:set var="i" value="0" />
 				<c:forEach var="x" items="${list}">	
 					<c:set var="i" value="${ i+1 }" />
-					<tr class="ct_list_pop ${x.proTranCode eq '판매중' ? 'selling' : ''}" title="구매하려면 링크를 클릭하세요" data-placement="left">
+					<tr class="ct_list_pop ${x.proTranCode eq '판매중' ? 'selling' : ''}" title="구매하려면 링크를 클릭하세요" data-placement="left" style="font-family: 'Gowun Dodum', sans-serif !important;">
 						<td style="display:none;">${x.prodNo}</td>
 						<td align="center">${ i }</td>
 						<td align="left">

@@ -21,5 +21,7 @@ public interface ProductService {
 	public void updateProduct(ProductVO productVO) throws Exception;
 
 	public boolean checkDuplication(String userId) throws Exception;
+
+	public List<String> getProductAll(String value) throws Exception; // autocomplete¿ß«—
 	
 }

@@ -81,4 +81,9 @@ public class ProductServiceImpl implements ProductService {
 		return result;
 	}
 
+	@Override //autoComplete 위한 메소드
+	public List<String> getProductAll(String value) throws Exception {
+		return productDAO.getProductAll(value);
+	}
+
 }

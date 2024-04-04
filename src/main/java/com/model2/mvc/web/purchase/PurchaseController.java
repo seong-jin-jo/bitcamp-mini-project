@@ -28,7 +28,7 @@ import com.model2.mvc.service.user.UserService;
 @Controller
 @RequestMapping("/purchase/*")
 public class PurchaseController {
-	///Field
+	// Field
 
 	@Autowired
 	@Qualifier("purchaseServiceImpl")
@@ -43,14 +43,6 @@ public class PurchaseController {
 		System.out.println(this.getClass()+"ㅎㅎ");
 	}
 
-	//상품에서 구매 클릭시
-	@RequestMapping(value="addPurchaseView", method=RequestMethod.GET)
-	public String addPurhcase() throws Exception {
-		
-		System.out.println("/purchase/addPurchase : GET");
-		
-		return "forward:/purchase/addPurchase.jsp";
-	}
 	
 	// 구매이력 클릭시
 	@RequestMapping(value ="listPurchase", method=RequestMethod.GET)
@@ -69,23 +61,21 @@ public class PurchaseController {
 		return "forward:/purchase/listPurchase.jsp";
 	}
 	
-	// 상품상세보기에서 구매버튼 클릭시
+	// 상품상세보기에서 구매버튼 클릭시 (addPurchase와중복임)
 	@RequestMapping( value="execPurchase", method=RequestMethod.GET )
 	public String purchaseProduct(@RequestParam("prodNo") int prodNo, Model model) throws Exception {
 		
 		System.out.println("/purchase/execPurchase : GET "+ prodNo);
 		
 		ProductVO product = productService.findProduct(prodNo);
-		model.addAttribute("product", product);
-		// 해당 product 를 입금대기중으로 수정
-		// 해당 user에 product 엮어주기
-		
+		model.addAttribute("product", product); 
+
 		return "forward:/purchase/execPurchaseView.jsp";
 	}
 	
 	// 구매페이지에서 최종구매버튼 클릭시
 	@RequestMapping( value="execPurchase", method=RequestMethod.POST )
-	public String purchaseProduct(@ModelAttribute("addPurchase") PurchaseVO purchase) throws Exception {
+	public String purchaseProduct(@ModelAttribute("addPurchase") PurchaseVO purchase, Model model) throws Exception {
 		
 		System.out.println("/purchase/execPurchase : POST");
 		System.out.println(purchase);
@@ -99,6 +89,9 @@ public class PurchaseController {
 		//구매의 tranCode 업데이트
 		purchase.getPurchaseProd().setProTranCode("배송중");
 		purchaseService.purchaseProduct(purchase);
+		
+		model.addAttribute("product", product); 
+		model.addAttribute("purchase", purchase); 
 		
 		System.out.println("업데이트 완료!");
 		
