@@ -18,8 +18,5 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/mybatis-3.4.6"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/mybatis-spring-1.3.1"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-logging-1.3.0-bin"/>
-	<classpathentry kind="lib" path="C:/Users/bitcamp/Desktop/work_SJ/z.dependency/commons-dbcp-1.4/commons-dbcp-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/bitcamp/Desktop/work_SJ/z.dependency/commons-pool-1.6/commons-pool-1.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

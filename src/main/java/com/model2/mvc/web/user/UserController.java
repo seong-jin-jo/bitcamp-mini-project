@@ -40,7 +40,7 @@ public class UserController {
 	private UserService userService;
 	///Constructor
 	public UserController() {
-		System.out.println(this.getClass()+"¤»");
+		System.out.println(this.getClass()+"¤»1");
 	}
 	
 	@Value("#{commonProperties['pageUnit']}")

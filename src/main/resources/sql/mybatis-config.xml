@@ -17,6 +17,7 @@
 		<typeAlias alias="user" type="com.model2.mvc.domain.User" />
 		<typeAlias alias="ProductVO" type="com.model2.mvc.domain.ProductVO" />
 		<typeAlias alias="PurchaseVO" type="com.model2.mvc.domain.PurchaseVO" />
+		<typeAlias alias="ImagesVO" type="com.model2.mvc.domain.ImagesVO"/>
 		<typeAlias alias="search" type="com.model2.mvc.common.Search" />
 	</typeAliases>
 	
@@ -25,6 +26,7 @@
 		<mapper resource="sql/UserMapper.xml"/>
 		<mapper resource="sql/ProductMapper.xml"/>
 		<mapper resource="sql/PurchaseMapper.xml"/>
+		<mapper resource="sql/ImageMapper.xml"/>
 	</mappers>
 
 </configuration>

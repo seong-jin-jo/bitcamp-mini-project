@@ -41,6 +41,19 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>\
 	-->
+	
+	<!-- CORS 해결중 -->
+	<filter>
+		<filter-name>test</filter-name>
+		<filter-class>com.model2.mvc.web.CrossOriginResourceSharing</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>test</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- ///////// -->
+	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>	org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -60,13 +73,20 @@
        <servlet-name>action</servlet-name>
        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
        
-    <init-param>
-    	<param-name>contextConfigLocation</param-name>
-    	<param-value>/config/springMVC/common-servlet.xml</param-value>
-    	<!-- Servlet Meta data 와 Spring Meta-data 위치분리? -->
-    </init-param>
-   	
-   	<load-on-startup>1</load-on-startup>
+	    <init-param>
+	    	<param-name>contextConfigLocation</param-name>
+	    	<param-value>/config/springMVC/common-servlet.xml</param-value>
+	    	<!-- Servlet Meta data 와 Spring Meta-data 위치분리? -->
+	    </init-param>
+	   	
+	   	<load-on-startup>1</load-on-startup>
+	 	
+	 	<!-- Dispatcher Servlet 에 Multipart 를 설정한다 -->
+	 	<multipart-config>
+	 		<max-file-size>31457280</max-file-size>
+	 		<max-request-size>1004857600</max-request-size>
+	 	</multipart-config>
+ 	
  	</servlet>
 	
 	<!-- ~.do 경우 Servletmapping -->

@@ -13,7 +13,7 @@
 		<result property="prodDetail" column="prod_detail" 	 	 jdbcType="VARCHAR" />
 		<result property="manuDate" 	column="manufacture_day" jdbcType="VARCHAR" />
 		<result property="price" 		column="price" 			 jdbcType="NUMERIC" />
-		<result property="imageFile" 	column="image_file" 	 jdbcType="VARCHAR" />
+<!--	<result property="imageFile" 	column="image_file" 	 jdbcType="VARCHAR" /> -->
 		<result property="regDate" 	column="reg_date" 			 jdbcType="DATE" />
 		<result property="proTranCode" 	column="prod_trancode" 	 jdbcType="VARCHAR" />
 		<result property="fileName" column="file_Name" 			 jdbcType="NUMERIC" />
@@ -22,12 +22,19 @@
 	<!-- SQL : INSERT -->
 	<insert 	id="addProduct" parameterType="ProductVO" >
 
+    	<selectKey keyProperty="prodNo" resultType="int" order="AFTER">
+        SELECT SEQ_PRODUCT_PROD_NO.currval AS prodNo FROM DUAL
+    	</selectKey>
+    	
 	 	INSERT
 		INTO product (  prod_no, manufacture_day , price , prod_detail , prod_name, prod_trancode, reg_date ) 
 		VALUES	 (	SEQ_PRODUCT_PROD_NO.nextval, #{manuDate} , #{price} , #{prodDetail} , #{prodName} , #{proTranCode} , SYSDATE )
+	 	
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
+	 
+	 <!-- join 문써서 prod_no 에 해당하는 image 도 가져와야함 -->
 	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
 		manufacture_day , price, prod_detail, prod_name , prod_No, reg_date , prod_trancode

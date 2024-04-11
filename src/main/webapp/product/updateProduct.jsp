@@ -93,13 +93,18 @@
 				
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품이미지</strong></div>
-			<img width="30%" height="30%" src="https://mblogthumb-phinf.pstatic.net/20160817_259/retspe_14714118890125sC2j_PNG/%C7%C7%C4%AB%C3%F2_%281%29.png?type=w800"/>
-		</div>
+	  		<br/>
+	  		&nbsp;
+			<c:forEach var="imagehana" items="${images}" varStatus="loop">
+				<!-- el 쓰면 getImage 안하고 바로 image 가능 -->
+		       	<img width="30%" height="30%" src="/images/fileInputStorage/${imagehana.image}"/>
+		    </c:forEach>
+		</div>							  
 
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>상품상세정보</strong></div>
+	  		<div class="col-xs-4 col-md-2"><strong>상품상세정보</strong></div> 
 			<div class="col-xs-8 col-md-4"><input type="text" name="prodDetail" value="${ProductVO.getProdDetail()}"></div>
 		</div>
 
